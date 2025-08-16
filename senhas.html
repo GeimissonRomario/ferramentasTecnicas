@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Senhas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Gerador de Senhas Seguras</h1>
+    <p>Crie senhas fortes e personalizadas</p>
+    <a href="index.html" class="back-btn">← Voltar</a>
+  </header>
+
+  <main class="container password-container">
+    <div class="password-controls">
+      <div class="control-group">
+        <label for="lengthRange">Tamanho da senha: <span id="lengthValue">16</span> caracteres</label>
+        <input type="range" id="lengthRange" min="8" max="32" value="16">
+      </div>
+
+      <div class="control-group">
+        <label>Incluir:</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" id="uppercase" checked> Letras maiúsculas (A-Z)</label>
+          <label><input type="checkbox" id="lowercase" checked> Letras minúsculas (a-z)</label>
+          <label><input type="checkbox" id="numbers" checked> Números (0-9)</label>
+          <label><input type="checkbox" id="symbols" checked> Símbolos (!@#$%^&*)</label>
+        </div>
+      </div>
+
+      <button id="generateBtn" class="generate-btn">Gerar Nova Senha</button>
+    </div>
+
+    <div class="password-result-container">
+      <div class="password-result" id="passwordResult"></div>
+      <button id="copyPasswordBtn" class="copy-btn" disabled>📋 Copiar Senha</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <small>Feito por Geimisson Romário — versão web (simulador)</small>
+  </footer>
+
+  <script src="senhas.js"></script>
+</body>
+</html>

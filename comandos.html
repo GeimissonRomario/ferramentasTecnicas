@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandos Windows</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Comandos Windows</h1>
+    <p>Clique em um comando para ver detalhes e copiar</p>
+    <a href="index.html" class="back-btn">← Voltar</a>
+  </header>
+
+  <main class="container">
+    <section class="menu" id="menu"></section>
+
+    <section class="output-card" id="outputCard" aria-live="polite">
+      <h2 id="outTitle">Selecione uma opção</h2>
+      <p id="outDesc">Aqui aparecerão a descrição e o comando correspondente.</p>
+
+      <div class="code-wrap" id="codeWrap" hidden>
+        <button class="copy-btn-cmd" id="copyBtnCmd" title="Copiar comando">📋 Copiar</button>
+        <pre class="code-box"><code id="codeBlock"></code></pre>
+      </div>
+
+      <p class="note">
+        ⚠️ Este painel não executa o comando. <br> 📋 Copie e cole o comando no <strong>PowerShell</strong>
+        (como Administrador quando necessário).
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Feito por Geimisson Romário — versão web (simulador)</small>
+  </footer>
+
+  <script src="comandos.js"></script>
+</body>
+</html>
