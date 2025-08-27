@@ -49,17 +49,19 @@ document.addEventListener('DOMContentLoaded', function() {
     passwordResult.textContent = password;
     copyPasswordBtn.disabled = false;
   }
+copyPasswordBtn.addEventListener('click', function() {
+  const password = passwordResult.textContent;
+  if (!password || password === 'Selecione pelo menos um tipo') return;
 
-  // Copiar senha
-  copyPasswordBtn.addEventListener('click', function() {
-    const password = passwordResult.textContent;
-    if (!password || password === 'Selecione pelo menos um tipo') return;
-
-    navigator.clipboard.writeText(password).then(() => {
-      copyPasswordBtn.textContent = '✅ Copiado!';
-      setTimeout(() => {
-        copyPasswordBtn.textContent = '📋 Copiar Senha';
-      }, 2000);
+  // Usar o novo sistema de notificações
+  copyWithNotification(password, "Senha copiada para a área de transferência!")
+    .then(success => {
+      if (success) {
+        copyPasswordBtn.textContent = '✅ Copiado!';
+        setTimeout(() => {
+          copyPasswordBtn.textContent = '📋 Copiar Senha';
+        }, 2000);
+      }
     });
-  });
+});
 });

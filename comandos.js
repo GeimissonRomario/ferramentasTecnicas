@@ -82,15 +82,6 @@ wevtutil epl System "C:\\BackupLogs\\System.evtx"` },
     cmd: `Start-Process taskmgr` },
 ];
 
-// ====== Sites Úteis ======
-const sitesUteis = [
-  { nome: "Teste de Velocidade", url: "https://www.speedtest.net/" },
-  { nome: "Portal de Chamados", url: "https://portaldechamados.com.br/sign-in" },
-  { nome: "Fast.com", url: "https://fast.com" },
-  { nome: "WhatsApp Web", url: "https://web.whatsapp.com" },
-  { nome: "Microsoft 365", url: "https://office.com" }
-];
-
 // ====== Elementos DOM ======
 const menuEl = document.getElementById("menu");
 const outputCard = document.getElementById("outputCard");
@@ -99,73 +90,71 @@ const outDesc = document.getElementById("outDesc");
 const codeWrap = document.getElementById("codeWrap");
 const codeBlock = document.getElementById("codeBlock");
 const copyBtnCmd = document.getElementById("copyBtnCmd");
-const passwordOutput = document.getElementById("passwordOutput");
-const passwordResult = document.getElementById("passwordResult");
-const generateBtn = document.getElementById("generateBtn");
-const sitesOutput = document.getElementById("sitesOutput");
-const sitesList = document.getElementById("sitesList");
-const note = document.getElementById("note");
-const tabButtons = document.querySelectorAll(".tab-btn");
+const searchInput = document.getElementById("searchInput");
+const clearSearch = document.getElementById("clearSearch");
+
+// ====== Variáveis de estado ======
+let filteredComandos = [...comandos];
 
 // ====== Inicialização ======
 function init() {
-  setupTabs();
   setupCommands();
-  setupPasswordGenerator();
-  showTab("comandos"); // Mostra a aba de comandos por padrão
-}
-
-// ====== Configuração das abas ======
-function setupTabs() {
-  tabButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      tabButtons.forEach(btn => btn.classList.remove("active"));
-      button.classList.add("active");
-      showTab(button.dataset.tab);
-    });
-  });
-}
-
-// ====== Mostrar aba selecionada ======
-function showTab(tabName) {
-  switch(tabName) {
-    case "comandos":
-      menuEl.hidden = false;
-      codeWrap.hidden = false;
-      passwordOutput.hidden = true;
-      sitesOutput.hidden = true;
-      note.hidden = false;
-      outTitle.textContent = "Selecione uma opção";
-      outDesc.textContent = "Aqui aparecerão a descrição e o comando correspondente.";
-      break;
-      
-    case "senhas":
-      menuEl.hidden = true;
-      codeWrap.hidden = true;
-      passwordOutput.hidden = false;
-      sitesOutput.hidden = true;
-      note.hidden = true;
-      outTitle.textContent = "Gerador de Senhas Fortes";
-      outDesc.textContent = "Clique no botão para gerar uma nova senha segura.";
-      generatePassword();
-      break;
-      
-    case "sites":
-      menuEl.hidden = true;
-      codeWrap.hidden = true;
-      passwordOutput.hidden = true;
-      sitesOutput.hidden = false;
-      note.hidden = true;
-      outTitle.textContent = "Sites Úteis";
-      outDesc.textContent = "Clique em um site para abri-lo em uma nova aba.";
-      setupSitesList();
-      break;
-  }
+  setupSearch();
+  setupCopyButton();
 }
 
 // ====== Configuração dos comandos ======
 function setupCommands() {
-  comandos.forEach(c => {
+  renderComandos();
+}
+
+// ====== Configuração da busca ======
+function setupSearch() {
+  searchInput.addEventListener("input", filterComandos);
+  clearSearch.addEventListener("click", () => {
+    searchInput.value = "";
+    filterComandos();
+    clearSearch.style.display = "none";
+  });
+  
+  // Esconder o botão de limpar inicialmente
+  clearSearch.style.display = "none";
+}
+
+// ====== Filtrar comandos ======
+function filterComandos() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  
+  if (searchTerm === "") {
+    filteredComandos = [...comandos];
+    clearSearch.style.display = "none";
+  } else {
+    filteredComandos = comandos.filter(c => 
+      c.nome.toLowerCase().includes(searchTerm) || 
+      c.desc.toLowerCase().includes(searchTerm) ||
+      c.cmd.toLowerCase().includes(searchTerm)
+    );
+    clearSearch.style.display = "block";
+  }
+  
+  renderComandos();
+}
+
+// ====== Renderizar comandos ======
+function renderComandos() {
+  menuEl.innerHTML = "";
+  
+  if (filteredComandos.length === 0) {
+    menuEl.innerHTML = `
+      <div class="no-results">
+        <p>Nenhum comando encontrado para "${searchInput.value}"</p>
+        <small>Tente usar termos diferentes ou menos específicos</small>
+      </div>
+    `;
+    return;
+  }
+  
+  filteredComandos.forEach(c => {
     const btn = document.createElement("button");
     btn.className = "btn";
     btn.setAttribute("type","button");
@@ -192,51 +181,25 @@ function mostrar(item){
   copyBtnCmd.textContent = "📋 Copiar";
 }
 
-// ====== Configuração do gerador de senhas ======
-function setupPasswordGenerator() {
-  generateBtn.addEventListener("click", generatePassword);
-}
-
-function generatePassword() {
-  const length = 16;
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
-  let password = "";
-  
-  for (let i = 0; i < length; i++) {
-    password += charset.charAt(Math.floor(Math.random() * charset.length));
-  }
-  
-  passwordResult.textContent = password;
-}
-
-// ====== Configuração da lista de sites ======
-function setupSitesList() {
-  sitesList.innerHTML = "";
-  sitesUteis.forEach(site => {
-    const button = document.createElement("button");
-    button.className = "site-btn";
-    button.textContent = site.nome;
-    button.addEventListener("click", () => window.open(site.url, "_blank"));
-    sitesList.appendChild(button);
+// ====== Configuração do botão de copiar ======
+function setupCopyButton() {
+  copyBtnCmd.addEventListener("click", async () => {
+    const code = codeBlock.textContent.trim();
+    if(!code) return;
+    
+    // Usar o sistema de notificações melhorado
+    const success = await copyWithNotification(code, "Comando copiado para a área de transferência!");
+    
+    if (success) {
+      copyBtnCmd.textContent = "✅ Copiado!";
+      copyBtnCmd.classList.add("copied");
+      setTimeout(() => {
+        copyBtnCmd.textContent = "📋 Copiar";
+        copyBtnCmd.classList.remove("copied");
+      }, 1800);
+    }
   });
 }
-
-// ====== Copiar comando ======
-copyBtnCmd.addEventListener("click", async () => {
-  const code = codeBlock.textContent.trim();
-  if(!code) return;
-  try{
-    await navigator.clipboard.writeText(code);
-    copyBtnCmd.textContent = "✅ Copiado!";
-    copyBtnCmd.classList.add("copied");
-    setTimeout(() => {
-      copyBtnCmd.textContent = "📋 Copiar";
-      copyBtnCmd.classList.remove("copied");
-    }, 1800);
-  }catch(e){
-    alert("Não foi possível copiar. Selecione e copie manualmente (Ctrl+C).");
-  }
-});
 
 // ====== Inicializar aplicação ======
 init();

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Subredes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<header class="topbar">
+  <!-- conteúdo existente do header -->
+  <button class="theme-toggle" id="themeToggle">🌙</button>
+</header>
+<body>
+  <header class="topbar">
+    <h1>Calculadora de Subredes IP</h1>
+    <p>Calcule subredes, máscaras e intervalos de IP</p>
+    <a href="index.html" class="back-btn">← Voltar</a>
+  </header>
+
+  <main class="container subnet-container">
+    <div class="subnet-controls">
+      <div class="control-group">
+        <label for="ipAddress">Endereço IP:</label>
+        <input type="text" id="ipAddress" placeholder="Ex: 192.168.1.1" class="subnet-input">
+      </div>
+
+      <div class="control-group">
+        <label for="subnetBits">Bits da sub-rede (CIDR):</label>
+        <input type="range" id="subnetBits" min="1" max="30" value="24">
+        <span id="subnetValue">/24</span>
+      </div>
+
+      <button id="calculateBtn" class="calculate-btn">Calcular</button>
+    </div>
+
+    <div class="subnet-results" id="subnetResults">
+      <div class="result-card">
+        <h3>Máscara de Sub-rede</h3>
+        <p id="subnetMask">255.255.255.0</p>
+      </div>
+
+      <div class="result-card">
+        <h3>Endereço de Rede</h3>
+        <p id="networkAddress">192.168.1.0</p>
+      </div>
+
+      <div class="result-card">
+        <h3>Broadcast</h3>
+        <p id="broadcastAddress">192.168.1.255</p>
+      </div>
+
+      <div class="result-card">
+        <h3>Primeiro IP Utilizável</h3>
+        <p id="firstUsable">192.168.1.1</p>
+      </div>
+
+      <div class="result-card">
+        <h3>Último IP Utilizável</h3>
+        <p id="lastUsable">192.168.1.254</p>
+      </div>
+
+      <div class="result-card">
+        <h3>Total de Hosts</h3>
+        <p id="totalHosts">254</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <small>Feito por Geimisson Romário — versão web (simulador)</small>
+  </footer>
+
+  <script src="subnet.js"></script>
+  <script src="sites.js"></script>
+  <script src="senhas.js"></script>
+  <script src="qrcode.js"></script>
+  <script src="comandos.js"></script>
+  <script src="theme.js"></script>
+<script src="notification.js"></script>
+</body>
+</html>
