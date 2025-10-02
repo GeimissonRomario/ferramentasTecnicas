@@ -1,141 +1,172 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const qrType = document.getElementById('qrType');
+
   const textInput = document.getElementById('textInput');
   const urlInput = document.getElementById('urlInput');
   const wifiInput = document.getElementById('wifiInput');
+  const pixInput = document.getElementById('pixInput');
+
   const qrText = document.getElementById('qrText');
   const qrUrl = document.getElementById('qrUrl');
+
   const wifiName = document.getElementById('wifiName');
   const wifiPassword = document.getElementById('wifiPassword');
   const wifiEncryption = document.getElementById('wifiEncryption');
+
+  const pixKey = document.getElementById('pixKey');
+  const pixName = document.getElementById('pixName');
+  const pixCity = document.getElementById('pixCity');
+  const pixValue = document.getElementById('pixValue');
+
   const generateQrBtn = document.getElementById('generateQrBtn');
   const downloadQrBtn = document.getElementById('downloadQrBtn');
   const qrcodeElement = document.getElementById('qrcode');
 
   let qrcode = null;
 
-  // Alternar entre tipos de QR Code
   qrType.addEventListener('change', toggleInputs);
-  
+  generateQrBtn.addEventListener('click', generateQRCode);
+
   function toggleInputs() {
     const type = qrType.value;
-    
     textInput.style.display = type === 'text' ? 'block' : 'none';
     urlInput.style.display = type === 'url' ? 'block' : 'none';
     wifiInput.style.display = type === 'wifi' ? 'block' : 'none';
+    pixInput.style.display = type === 'pix' ? 'block' : 'none';
   }
-
-  // Gerar QR Code
-  generateQrBtn.addEventListener('click', generateQRCode);
 
   function generateQRCode() {
     const type = qrType.value;
     let qrData = '';
-    
-    // Validar e preparar os dados com base no tipo
+
     try {
-      switch(type) {
+      switch (type) {
         case 'text':
           qrData = qrText.value.trim();
-          if (!qrData) {
-            showNotification('Por favor, insira algum texto para gerar o QR Code.', 'error');
-            return;
-          }
+          if (!qrData) { alert('Digite algum texto.'); return; }
           break;
-          
+
         case 'url':
           qrData = qrUrl.value.trim();
-          if (!qrData) {
-            showNotification('Por favor, insira uma URL para gerar o QR Code.', 'error');
-            return;
-          }
-          // Garantir que a URL tenha o protocolo http/https
-          if (!qrData.startsWith('http://') && !qrData.startsWith('https://')) {
-            qrData = 'https://' + qrData;
-          }
+          if (!qrData) { alert('Digite uma URL.'); return; }
+          if (!qrData.startsWith('http://') && !qrData.startsWith('https://')) qrData = 'https://' + qrData;
           break;
-          
+
         case 'wifi':
           const ssid = wifiName.value.trim();
           const password = wifiPassword.value;
           const encryption = wifiEncryption.value;
-          
-          if (!ssid) {
-            showNotification('Por favor, informe o nome da rede WiFi.', 'error');
-            return;
-          }
-          
-          // Formatar dados WiFi no formato padrão
+          if (!ssid) { alert('Informe o nome da rede WiFi.'); return; }
           qrData = `WIFI:S:${ssid};T:${encryption};P:${password};;`;
           break;
+
+        case 'pix':
+          const chaveRaw = (pixKey.value || '').trim();
+          const nome = (pixName.value || '').trim();
+          const cidade = (pixCity.value || '').trim();
+          const valor = (pixValue.value || '').trim();
+
+          if (!chaveRaw) { alert('Informe a chave PIX.'); return; }
+          if (!nome) { alert('Informe o nome do recebedor.'); return; }
+          if (!cidade) { alert('Informe a cidade do recebedor.'); return; }
+
+          const chave = normalizePixKey(chaveRaw);
+          qrData = gerarPayloadPix(chave, nome, cidade, valor);
+          if (!qrData) { alert('Erro ao montar payload PIX.'); return; }
+          break;
       }
-      
-      // Limpar QR Code anterior
+
       qrcodeElement.innerHTML = '';
-      
-      // Verificar se a biblioteca QRCode está carregada
-      if (typeof QRCode === 'undefined') {
-        showNotification('Erro: Biblioteca QRCode não carregada. Verifique sua conexão.', 'error');
-        return;
-      }
-      
-      // Criar nova instância do QRCode
+      if (typeof QRCode === 'undefined') { alert('Biblioteca QRCode não carregada.'); return; }
+
       qrcode = new QRCode(qrcodeElement, {
         text: qrData,
-        width: 200,
-        height: 200,
+        width: 240,
+        height: 240,
         colorDark: '#000000',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       });
-      
-      // Habilitar botão de download
+
       downloadQrBtn.disabled = false;
-      showNotification('QR Code gerado com sucesso!', 'success');
-      
-    } catch (error) {
-      console.error('Erro ao gerar QR Code:', error);
-      showNotification('Erro ao gerar QR Code. Tente novamente.', 'error');
+    } catch (err) {
+      console.error('Erro ao gerar QR Code:', err);
+      alert('Erro ao gerar QR Code.');
     }
   }
 
-  // Download do QR Code
-  downloadQrBtn.addEventListener('click', downloadQRCode);
-
-  function downloadQRCode() {
+  downloadQrBtn.addEventListener('click', function () {
     try {
       const canvas = qrcodeElement.querySelector('canvas');
-      if (!canvas) {
-        showNotification('Nenhum QR Code para download.', 'error');
-        return;
-      }
-      
+      if (!canvas) { alert('Nenhum QR Code para download.'); return; }
       const link = document.createElement('a');
       link.download = 'qrcode.png';
       link.href = canvas.toDataURL('image/png');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      showNotification('Download iniciado!', 'success');
-    } catch (error) {
-      console.error('Erro ao fazer download:', error);
-      showNotification('Erro ao fazer download. Tente novamente.', 'error');
+    } catch (err) {
+      console.error('Erro ao baixar QR:', err);
+      alert('Erro ao baixar QR Code.');
     }
+  });
+
+  // ---- Funções PIX (BR Code / EMV) ----
+  function normalizePixKey(chave) {
+    const onlyDigits = chave.replace(/\D/g, '');
+    if (/^\d{11}$/.test(onlyDigits)) { // telefone celular brasileiro
+      return '+55' + onlyDigits;
+    }
+    return chave; // CPF/CNPJ ou e-mail mantém
   }
 
-  // Preencher automaticamente com URL padrão e gerar QR Code inicial
-  function initialize() {
-    toggleInputs();
-    
-    // Preencher URL padrão e gerar QR code inicial
-    if (qrUrl.value) {
-      setTimeout(() => {
-        generateQRCode();
-      }, 500);
+  function gerarPayloadPix(chave, nome, cidade, valor) {
+    function normalizeField(v) {
+      return v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
     }
+    const nomeNorm = normalizeField(nome).slice(0, 25);
+    const cidadeNorm = normalizeField(cidade).slice(0, 15);
+
+    function field(id, value) {
+      const v = String(value);
+      const len = String(v.length).padStart(2, '0');
+      return id + len + v;
+    }
+
+    let payload = '';
+    payload += field('00', '01');
+    const mai = field('00', 'BR.GOV.BCB.PIX') + field('01', chave);
+    payload += field('26', mai);
+    payload += field('52', '0000');
+    payload += field('53', '986');
+    if (valor) {
+      const v = Number(valor).toFixed(2).replace(',', '.');
+      payload += field('54', v);
+    }
+    payload += field('58', 'BR');
+    payload += field('59', nomeNorm);
+    payload += field('60', cidadeNorm);
+    payload += field('62', field('05', '***'));
+
+    const crc = calcularCRC16(payload + '6304');
+    payload += '6304' + crc;
+
+    return payload;
   }
 
-  // Inicializar
-  initialize();
+  function calcularCRC16(str) {
+    const polinomio = 0x1021;
+    let crc = 0xFFFF;
+    const bytes = new TextEncoder().encode(str);
+    for (let b of bytes) {
+      crc ^= (b << 8);
+      for (let i = 0; i < 8; i++) {
+        if ((crc & 0x8000) !== 0) crc = ((crc << 1) ^ polinomio) & 0xFFFF;
+        else crc = (crc << 1) & 0xFFFF;
+      }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  toggleInputs();
 });
