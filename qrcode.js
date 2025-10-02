@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
       switch (type) {
         case 'text':
           qrData = qrText.value.trim();
-          if (!qrData) { alert('Digite algum texto.'); return; }
+          if (!qrData) { showNotification('Digite algum texto.'); return; }
           break;
 
         case 'url':
           qrData = qrUrl.value.trim();
-          if (!qrData) { alert('Digite uma URL.'); return; }
+          if (!qrData) { showNotification('Digite uma URL.'); return; }
           if (!qrData.startsWith('http://') && !qrData.startsWith('https://')) qrData = 'https://' + qrData;
           break;
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const ssid = wifiName.value.trim();
           const password = wifiPassword.value;
           const encryption = wifiEncryption.value;
-          if (!ssid) { alert('Informe o nome da rede WiFi.'); return; }
+          if (!ssid) { showNotification('Informe o nome da rede WiFi.'); return; }
           qrData = `WIFI:S:${ssid};T:${encryption};P:${password};;`;
           break;
 
@@ -66,18 +66,18 @@ document.addEventListener('DOMContentLoaded', function () {
           const cidade = (pixCity.value || '').trim();
           const valor = (pixValue.value || '').trim();
 
-          if (!chaveRaw) { alert('Informe a chave PIX.'); return; }
-          if (!nome) { alert('Informe o nome do recebedor.'); return; }
-          if (!cidade) { alert('Informe a cidade do recebedor.'); return; }
+          if (!chaveRaw) { showNotification('Informe a chave PIX.'); return; }
+          if (!nome) { showNotification('Informe o nome do recebedor.'); return; }
+          if (!cidade) { showNotification('Informe a cidade do recebedor.'); return; }
 
           const chave = normalizePixKey(chaveRaw);
           qrData = gerarPayloadPix(chave, nome, cidade, valor);
-          if (!qrData) { alert('Erro ao montar payload PIX.'); return; }
+          if (!qrData) { showNotification('Erro ao montar payload PIX.'); return; }
           break;
       }
 
       qrcodeElement.innerHTML = '';
-      if (typeof QRCode === 'undefined') { alert('Biblioteca QRCode não carregada.'); return; }
+      if (typeof QRCode === 'undefined') { showNotification('Biblioteca QRCode não carregada.'); return; }
 
       qrcode = new QRCode(qrcodeElement, {
         text: qrData,
@@ -91,14 +91,14 @@ document.addEventListener('DOMContentLoaded', function () {
       downloadQrBtn.disabled = false;
     } catch (err) {
       console.error('Erro ao gerar QR Code:', err);
-      alert('Erro ao gerar QR Code.');
+      showNotification('Erro ao gerar QR Code.');
     }
   }
 
   downloadQrBtn.addEventListener('click', function () {
     try {
       const canvas = qrcodeElement.querySelector('canvas');
-      if (!canvas) { alert('Nenhum QR Code para download.'); return; }
+      if (!canvas) { showNotification('Nenhum QR Code para download.'); return; }
       const link = document.createElement('a');
       link.download = 'qrcode.png';
       link.href = canvas.toDataURL('image/png');
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.removeChild(link);
     } catch (err) {
       console.error('Erro ao baixar QR:', err);
-      alert('Erro ao baixar QR Code.');
+      showNotification('Erro ao baixar QR Code.');
     }
   });
 

@@ -13,6 +13,8 @@ function showNotification(message, type = 'success') {
   
   // Adicionar ao documento
   document.body.appendChild(notification);
+
+  requestAnimationFrame(() => notification.classList.add('show'));
   
   // Remover após 3 segundos
   setTimeout(() => {
