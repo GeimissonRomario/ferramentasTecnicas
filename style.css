@@ -471,6 +471,17 @@ input[type="range"]::-webkit-slider-thumb {
   display: inline-block;
 }
 
+.site-categoria {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  background: rgba(10, 102, 255, 0.1);
+  color: var(--primary);
+  font-weight: 500;
+}
+
 /* ===== PÁGINA DE ATALHOS - LAYOUT ATUALIZADO ===== */
 .atalhos-container {
   flex: 1;
