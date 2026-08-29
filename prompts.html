@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top 10 Prompts de Segurança</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Top 10 Prompts de Segurança</h1>
+    <p>Prompts prontos para usar com IA em investigações de segurança</p>
+    <a href="index.html" class="back-btn">← Voltar</a>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+  </header>
+
+  <main class="container comandos-main">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Buscar prompt..." class="search-input">
+      <button id="clearSearch" class="clear-search-btn" title="Limpar busca">✕</button>
+      <span class="search-counter" id="searchCounter"></span>
+    </div>
+
+    <section class="menu" id="menu"></section>
+
+    <section class="output-card" id="outputCard" aria-live="polite">
+      <h2 id="outTitle">Selecione um prompt</h2>
+      <p id="outDesc">Clique em um cenário para ver o prompt completo.</p>
+      <p class="prompt-tip" id="promptTip"></p>
+
+      <div class="code-wrap" id="codeWrap" hidden>
+        <button class="copy-btn-cmd" id="copyBtnCmd">📋 Copiar prompt</button>
+        <pre class="code-box"><code id="codeBlock"></code></pre>
+      </div>
+
+      <p class="note" id="noteDefault">
+        💡 Copie o prompt, cole na IA de sua escolha e substitua os campos entre <strong>[colchetes]</strong> pelas informações reais do seu caso.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Feito por Geimisson Romário — versão web (simulador)</small>
+  </footer>
+
+  <script src="notification.js"></script>
+  <script src="prompts.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>

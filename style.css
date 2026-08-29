@@ -344,6 +344,16 @@ footer { margin-top: auto; }
 .output-card p { margin: 4px 0; color: var(--text-2); font-size: 14px; }
 .output-card .note { margin-top: 14px; color: var(--muted); font-size: 13px; }
 
+.prompt-tip {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}
+
 .code-wrap { position: relative; margin-top: 14px; }
 
 .copy-btn-cmd {
