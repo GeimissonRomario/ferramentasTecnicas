@@ -73,8 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
     infoBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = descPanel.classList.contains('visible');
-      document.querySelectorAll('.site-desc-panel.visible').forEach(p => p.classList.remove('visible'));
-      if (!isOpen) descPanel.classList.add('visible');
+      document.querySelectorAll('.site-desc-panel.visible').forEach(p => {
+        p.classList.remove('visible');
+        p.closest('.site-card').style.zIndex = '';
+      });
+      if (!isOpen) {
+        descPanel.classList.add('visible');
+        card.style.zIndex = '100';
+      }
     });
 
     card.appendChild(link);
@@ -84,6 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.addEventListener('click', () => {
-    document.querySelectorAll('.site-desc-panel.visible').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.site-desc-panel.visible').forEach(p => {
+      p.classList.remove('visible');
+      p.closest('.site-card').style.zIndex = '';
+    });
   });
 });
