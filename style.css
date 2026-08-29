@@ -32,7 +32,7 @@
   --header-border: rgba(0,0,0,0.07);
 }
 
-.dark-theme {
+.dark-theme, html.dark-theme {
   --bg: #0f1117;
   --bg-2: #161b27;
   --card: #1e2330;
