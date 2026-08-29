@@ -1,4 +1,4 @@
-// ====== Dados das opções (26 do seu .BAT) ======
+// ====== Dados das opções (44 comandos) ======
 const comandos = [
   { id: 1,  nome: "Limpeza de temporários", desc: "Remove arquivos temporários do usuário e do Windows.",
     cmd: `Remove-Item -Path "$env:TEMP\\*" -Recurse -Force -ErrorAction SilentlyContinue
@@ -80,6 +80,81 @@ wevtutil epl System "C:\\BackupLogs\\System.evtx"` },
 
   { id:23,  nome: "Uso de memória/CPU", desc: "Abre o Gerenciador de Tarefas.",
     cmd: `Start-Process taskmgr` },
+
+  // ===== REDE / DIAGNÓSTICO =====
+  { id:24, nome: "Traceroute", desc: "Rastreia o caminho dos pacotes até um destino.",
+    cmd: `tracert www.google.com` },
+
+  { id:25, nome: "NSLookup / DNS", desc: "Consulta registros DNS de um domínio.",
+    cmd: `nslookup google.com
+nslookup -type=MX google.com
+nslookup -type=TXT google.com` },
+
+  { id:26, nome: "Conexões ativas (Netstat)", desc: "Lista conexões TCP ativas com processo associado.",
+    cmd: `netstat -ano | Select-String "ESTABLISHED"` },
+
+  { id:27, nome: "Testar porta específica", desc: "Testa conectividade em uma porta (ex: 443, 3389, 80).",
+    cmd: `Test-NetConnection -ComputerName google.com -Port 443` },
+
+  { id:28, nome: "Redes WiFi salvas", desc: "Lista todas as redes WiFi já conectadas neste PC.",
+    cmd: `netsh wlan show profiles` },
+
+  { id:29, nome: "Senha WiFi salva", desc: "Exibe a senha de uma rede WiFi salva (substitua NOME_DA_REDE).",
+    cmd: `netsh wlan show profile name="NOME_DA_REDE" key=clear` },
+
+  { id:30, nome: "Sincronização de horário (NTP)", desc: "Força sincronização do relógio com servidor de tempo.",
+    cmd: `w32tm /resync /force
+w32tm /query /status` },
+
+  { id:31, nome: "Tabela de rotas", desc: "Exibe a tabela de roteamento da máquina.",
+    cmd: `route print` },
+
+  // ===== USUÁRIOS / SEGURANÇA =====
+  { id:32, nome: "Informações do usuário (whoami)", desc: "Exibe usuário atual, grupos e privilégios.",
+    cmd: `whoami /all` },
+
+  { id:33, nome: "Usuários locais", desc: "Lista todos os usuários locais da máquina.",
+    cmd: `Get-LocalUser | Select-Object Name, Enabled, LastLogon` },
+
+  { id:34, nome: "Últimos logins (log de segurança)", desc: "Exibe os últimos 10 eventos de logon bem-sucedido.",
+    cmd: `Get-WinEvent -LogName Security -FilterXPath "*[System[EventID=4624]]" -MaxEvents 10 |
+Select-Object TimeCreated, Message | Format-List` },
+
+  { id:35, nome: "Tentativas de login falhas", desc: "Exibe os últimos 10 eventos de falha de autenticação.",
+    cmd: `Get-WinEvent -LogName Security -FilterXPath "*[System[EventID=4625]]" -MaxEvents 10 |
+Select-Object TimeCreated, Message | Format-List` },
+
+  { id:36, nome: "Status do Firewall", desc: "Exibe status do firewall Windows em todos os perfis.",
+    cmd: `Get-NetFirewallProfile | Select-Object Name, Enabled` },
+
+  { id:37, nome: "Programas na inicialização", desc: "Lista programas que iniciam com o Windows.",
+    cmd: `Get-CimInstance Win32_StartupCommand | Select-Object Name, Command, Location` },
+
+  // ===== SISTEMA / MANUTENÇÃO =====
+  { id:38, nome: "Criar ponto de restauração", desc: "Cria um ponto de restauração do sistema imediatamente.",
+    cmd: `Checkpoint-Computer -Description "Ponto manual - Suporte TI" -RestorePointType MODIFY_SETTINGS` },
+
+  { id:39, nome: "Atualizações pendentes", desc: "Lista atualizações disponíveis via Windows Update.",
+    cmd: `(New-Object -ComObject Microsoft.Update.Session).CreateUpdateSearcher().Search("IsInstalled=0").Updates | Select-Object Title` },
+
+  { id:40, nome: "Exportar programas instalados", desc: "Gera lista de todos os programas instalados em TXT.",
+    cmd: `Get-ItemProperty HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* |
+Select-Object DisplayName, DisplayVersion, Publisher |
+Sort-Object DisplayName |
+Out-File "$env:USERPROFILE\\Desktop\\programas_instalados.txt"` },
+
+  { id:41, nome: "Reiniciar serviço específico", desc: "Reinicia um serviço pelo nome (substitua NOME_SERVICO).",
+    cmd: `Restart-Service -Name "NOME_SERVICO" -Force` },
+
+  { id:42, nome: "Temperatura e hardware", desc: "Abre o monitor de recursos para CPU, memória, disco e rede.",
+    cmd: `Start-Process perfmon /res` },
+
+  { id:43, nome: "Política de senha local", desc: "Exibe política de senhas configurada localmente.",
+    cmd: `net accounts` },
+
+  { id:44, nome: "Informações da BIOS / Fabricante", desc: "Exibe modelo, fabricante e versão da BIOS.",
+    cmd: `Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer, Model, TotalPhysicalMemory
+Get-CimInstance Win32_BIOS | Select-Object SMBIOSBIOSVersion, ReleaseDate` },
 ];
 
 // ====== Elementos DOM ======
