@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   const sitesGrid = document.getElementById('sitesGrid');
+  const siteSearch = document.getElementById('siteSearch');
+  const sitesCounter = document.getElementById('sitesCounter');
+  const filtroBtns = document.querySelectorAll('.filtro-btn');
+  let categoriaAtiva = 'Todos';
   
   const sites = [
     // Suporte & Chamados
@@ -47,7 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
       desc: 'Repositório de código e controle de versão. Use para acessar scripts, projetos internos e documentação técnica versionada.' },
   ];
 
-  sites.forEach(site => {
+  function renderSites() {
+    const termo = siteSearch.value.toLowerCase().trim();
+    const filtrados = sites.filter(s => {
+      const matchCat = categoriaAtiva === 'Todos' || s.categoria === categoriaAtiva;
+      const matchBusca = !termo || s.name.toLowerCase().includes(termo) || s.categoria.toLowerCase().includes(termo);
+      return matchCat && matchBusca;
+    });
+
+    sitesGrid.innerHTML = '';
+    sitesCounter.textContent = termo || categoriaAtiva !== 'Todos'
+      ? `${filtrados.length} de ${sites.length} sites`
+      : `${sites.length} sites`;
+
+    if (filtrados.length === 0) {
+      sitesGrid.innerHTML = `<div class="no-results" style="grid-column:1/-1"><p>Nenhum site encontrado</p></div>`;
+      return;
+    }
+
+    filtrados.forEach(site => renderCard(site));
+  }
+
+  function renderCard(site) {
     const card = document.createElement('div');
     card.className = 'site-card';
 
@@ -87,7 +112,20 @@ document.addEventListener('DOMContentLoaded', function() {
     card.appendChild(infoBtn);
     card.appendChild(descPanel);
     sitesGrid.appendChild(card);
+  }
+
+  filtroBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filtroBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      categoriaAtiva = btn.dataset.cat;
+      renderSites();
+    });
   });
+
+  siteSearch.addEventListener('input', renderSites);
+
+  renderSites();
 
   document.addEventListener('click', () => {
     document.querySelectorAll('.site-desc-panel.visible').forEach(p => {

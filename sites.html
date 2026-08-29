@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sites Úteis</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,6 +17,17 @@
   </header>
 
   <main class="container sites-container">
+    <div class="sites-toolbar">
+      <input type="text" id="siteSearch" class="search-input" placeholder="Buscar site...">
+      <div class="sites-filtros" id="sitesFiltros">
+        <button class="filtro-btn active" data-cat="Todos">Todos</button>
+        <button class="filtro-btn" data-cat="Suporte">Suporte</button>
+        <button class="filtro-btn" data-cat="Rede">Rede</button>
+        <button class="filtro-btn" data-cat="Segurança">Segurança</button>
+        <button class="filtro-btn" data-cat="Cloud">Cloud</button>
+      </div>
+      <span class="search-counter" id="sitesCounter"></span>
+    </div>
     <div class="sites-grid" id="sitesGrid"></div>
   </main>
 

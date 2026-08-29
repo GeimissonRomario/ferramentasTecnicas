@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const area = document.getElementById('notasArea');
   const status = document.getElementById('notasStatus');
   const copiarBtn = document.getElementById('copiarBtn');
+  const exportarBtn = document.getElementById('exportarBtn');
   const limparBtn = document.getElementById('limparBtn');
 
   const STORAGE_KEY = 'painel_notas';
@@ -48,6 +49,19 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     copyWithNotification(texto, 'Notas copiadas para a área de transferência!');
+  });
+
+  exportarBtn.addEventListener('click', function () {
+    const texto = area.value.trim();
+    if (!texto) { showNotification('Nenhuma nota para exportar.', 'error'); return; }
+    const data = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+    const blob = new Blob([area.value], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `notas-${data}.txt`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    showNotification('Notas exportadas com sucesso!', 'success');
   });
 
   limparBtn.addEventListener('click', function () {

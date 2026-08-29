@@ -1,0 +1,17 @@
+{
+  "name": "Painel de Suporte Técnico",
+  "short_name": "Suporte TI",
+  "description": "Ferramentas de suporte técnico: comandos, atalhos, sites, senhas, sub-redes e QR Code",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f6f9",
+  "theme_color": "#0a66ff",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

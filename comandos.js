@@ -58,8 +58,8 @@ netsh int ip reset` },
   { id:16,  nome: "IPConfig /all", desc: "Mostra informações detalhadas de rede.",
     cmd: `ipconfig /all` },
 
-  { id:17,  nome: "Instalar impressora / Driver", desc: "Abre a pasta de drivers no servidor.",
-    cmd: `Start-Process "\\\\brprt001"` },
+  { id:17,  nome: "Instalar impressora / Driver", desc: "Abre a pasta de drivers no servidor (edite o nome do servidor antes de copiar).",
+    cmd: `Start-Process "\\\\NOME_DO_SERVIDOR_DE_IMPRESSAO"` },
 
   { id:18,  nome: "Espaço em disco", desc: "Lista espaço livre/tamanho dos discos.",
     cmd: `Get-CimInstance Win32_LogicalDisk | Select-Object DeviceID, FreeSpace, Size` },
@@ -167,6 +167,7 @@ const codeBlock = document.getElementById("codeBlock");
 const copyBtnCmd = document.getElementById("copyBtnCmd");
 const searchInput = document.getElementById("searchInput");
 const clearSearch = document.getElementById("clearSearch");
+const searchCounter = document.getElementById("searchCounter");
 
 // ====== Variáveis de estado ======
 let filteredComandos = [...comandos];
@@ -218,7 +219,17 @@ function filterComandos() {
 // ====== Renderizar comandos ======
 function renderComandos() {
   menuEl.innerHTML = "";
-  
+
+  const total = comandos.length;
+  const encontrados = filteredComandos.length;
+  if (searchInput.value.trim()) {
+    searchCounter.textContent = `${encontrados} de ${total} comandos`;
+    searchCounter.style.display = "inline";
+  } else {
+    searchCounter.textContent = `${total} comandos`;
+    searchCounter.style.display = "inline";
+  }
+
   if (filteredComandos.length === 0) {
     menuEl.innerHTML = `
       <div class="no-results">
@@ -228,7 +239,7 @@ function renderComandos() {
     `;
     return;
   }
-  
+
   filteredComandos.forEach(c => {
     const btn = document.createElement("button");
     btn.className = "btn";
