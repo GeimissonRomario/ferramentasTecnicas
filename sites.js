@@ -48,14 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
 
   sites.forEach(site => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'site-card-wrapper';
+    const card = document.createElement('div');
+    card.className = 'site-card';
 
-    const siteCard = document.createElement('a');
-    siteCard.href = site.url;
-    siteCard.target = '_blank';
-    siteCard.className = 'site-card';
-    siteCard.innerHTML = `
+    const link = document.createElement('a');
+    link.href = site.url;
+    link.target = '_blank';
+    link.className = 'site-card-link';
+    link.innerHTML = `
       <div class="site-icon">${site.icon}</div>
       <h3>${site.name}</h3>
       <small class="site-categoria">${site.categoria}</small>
@@ -77,10 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!isOpen) descPanel.classList.add('visible');
     });
 
-    wrapper.appendChild(siteCard);
-    wrapper.appendChild(infoBtn);
-    wrapper.appendChild(descPanel);
-    sitesGrid.appendChild(wrapper);
+    card.appendChild(link);
+    card.appendChild(infoBtn);
+    card.appendChild(descPanel);
+    sitesGrid.appendChild(card);
   });
 
   document.addEventListener('click', () => {

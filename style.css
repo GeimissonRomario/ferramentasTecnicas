@@ -482,8 +482,15 @@ input[type="range"]::-webkit-slider-thumb {
   font-weight: 500;
 }
 
-.site-card-wrapper {
+.site-card {
   position: relative;
+}
+
+.site-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
 }
 
 .site-info-btn {
@@ -504,6 +511,7 @@ input[type="range"]::-webkit-slider-thumb {
   justify-content: center;
   transition: background 0.2s, color 0.2s;
   z-index: 1;
+  line-height: 1;
 }
 
 .site-info-btn:hover {
