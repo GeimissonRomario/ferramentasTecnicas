@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notas Rápidas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Notas Rápidas</h1>
+    <p>Anotações salvas automaticamente no navegador</p>
+    <a href="index.html" class="back-btn">← Voltar</a>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+  </header>
+
+  <main class="container notas-container">
+    <div class="notas-toolbar">
+      <span class="notas-status" id="notasStatus">Nenhuma nota ainda</span>
+      <div class="notas-actions">
+        <button class="notas-btn secondary" id="copiarBtn">📋 Copiar tudo</button>
+        <button class="notas-btn danger" id="limparBtn">🗑️ Limpar</button>
+      </div>
+    </div>
+
+    <textarea
+      id="notasArea"
+      class="notas-textarea"
+      placeholder="Digite suas anotações aqui...
+
+Exemplos de uso:
+• IP do usuário: 192.168.1.x
+• Chamado: #12345
+• Problema: ...
+• Solução aplicada: ..."
+    ></textarea>
+  </main>
+
+  <footer class="footer">
+    <small>Feito por Geimisson Romário — versão web (simulador)</small>
+  </footer>
+
+  <script src="notification.js"></script>
+  <script src="notas.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>
