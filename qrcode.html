@@ -35,8 +35,17 @@
       </div>
 
       <div id="pixInput" class="control-group" style="display:none">
+        <label for="pixKeyType">Tipo de chave PIX:</label>
+        <select id="pixKeyType" class="qr-select">
+          <option value="cpf">CPF</option>
+          <option value="cnpj">CNPJ</option>
+          <option value="telefone">Telefone</option>
+          <option value="email">E-mail</option>
+          <option value="aleatoria">Chave aleatória (EVP)</option>
+        </select>
+
         <label for="pixKey">Chave PIX:</label>
-        <input type="text" id="pixKey" placeholder="CPF, telefone, e-mail ou aleatória" class="qr-input">
+        <input type="text" id="pixKey" placeholder="Digite a chave" class="qr-input">
 
         <label for="pixName">Nome do Recebedor (obrigatório):</label>
         <input type="text" id="pixName" placeholder="Ex: JOAO DA SILVA" class="qr-input">

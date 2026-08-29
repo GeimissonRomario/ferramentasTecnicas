@@ -510,6 +510,23 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border: 1px solid rgba(255,255,255,0.06);
 }
 
+/* indicador de força de senha */
+.password-strength {
+  font-size: 13px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  background: var(--primary-light);
+  color: var(--text);
+  transition: background 0.3s;
+}
+.password-strength:empty { display: none; }
+.strength-weak  { background: rgba(239,68,68,0.12);  color: #ef4444; }
+.strength-fair  { background: rgba(234,179,8,0.12);  color: #ca8a04; }
+.strength-good  { background: rgba(34,197,94,0.12);  color: #16a34a; }
+.strength-great { background: rgba(37,99,235,0.12);  color: var(--primary); }
+
 /* ===== SITES ===== */
 .sites-container { flex: 1; gap: 16px; }
 

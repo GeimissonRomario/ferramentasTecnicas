@@ -20,7 +20,7 @@
     <div class="password-controls">
       <div class="control-group">
         <label for="lengthRange">Tamanho da senha: <span id="lengthValue">16</span> caracteres</label>
-        <input type="range" id="lengthRange" min="8" max="32" value="16">
+        <input type="range" id="lengthRange" min="8" max="64" value="16">
       </div>
 
       <div class="control-group">
@@ -30,6 +30,7 @@
           <label><input type="checkbox" id="lowercase" checked> Letras minúsculas (a-z)</label>
           <label><input type="checkbox" id="numbers" checked> Números (0-9)</label>
           <label><input type="checkbox" id="symbols" checked> Símbolos (!@#$%^&*)</label>
+          <label><input type="checkbox" id="excludeAmbiguous"> Excluir ambíguos (0, O, l, 1, I)</label>
         </div>
       </div>
 
@@ -38,6 +39,7 @@
 
     <div class="password-result-container">
       <div class="password-result" id="passwordResult"></div>
+      <div class="password-strength" id="passwordStrength" aria-live="polite"></div>
       <button id="copyPasswordBtn" class="copy-btn" disabled>📋 Copiar Senha</button>
     </div>
   </main>

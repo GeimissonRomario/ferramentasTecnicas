@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const wifiPassword = document.getElementById('wifiPassword');
   const wifiEncryption = document.getElementById('wifiEncryption');
 
+  const pixKeyType = document.getElementById('pixKeyType');
   const pixKey = document.getElementById('pixKey');
   const pixName = document.getElementById('pixName');
   const pixCity = document.getElementById('pixCity');
@@ -65,12 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
           const nome = (pixName.value || '').trim();
           const cidade = (pixCity.value || '').trim();
           const valor = (pixValue.value || '').trim();
+          const tipoChave = pixKeyType.value;
 
           if (!chaveRaw) { showNotification('Informe a chave PIX.'); return; }
           if (!nome) { showNotification('Informe o nome do recebedor.'); return; }
           if (!cidade) { showNotification('Informe a cidade do recebedor.'); return; }
 
-          const chave = normalizePixKey(chaveRaw);
+          const chave = normalizePixKey(chaveRaw, tipoChave);
+          if (!chave) { showNotification('Chave PIX inválida para o tipo selecionado.'); return; }
           qrData = gerarPayloadPix(chave, nome, cidade, valor);
           if (!qrData) { showNotification('Erro ao montar payload PIX.'); return; }
           break;
@@ -112,12 +115,28 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ---- Funções PIX (BR Code / EMV) ----
-  function normalizePixKey(chave) {
-    const onlyDigits = chave.replace(/\D/g, '');
-    if (/^\d{11}$/.test(onlyDigits)) { // telefone celular brasileiro
-      return '+55' + onlyDigits;
+  function normalizePixKey(chave, tipo) {
+    const digits = chave.replace(/\D/g, '');
+    switch (tipo) {
+      case 'telefone':
+        // aceita com ou sem +55, com ou sem o 9 extra
+        if (digits.length < 10 || digits.length > 11) return null;
+        return '+55' + digits;
+      case 'cpf':
+        if (digits.length !== 11) return null;
+        return digits;
+      case 'cnpj':
+        if (digits.length !== 14) return null;
+        return digits;
+      case 'email':
+        if (!chave.includes('@')) return null;
+        return chave.toLowerCase();
+      case 'aleatoria':
+        // EVP — UUID v4, mantém como está
+        return chave;
+      default:
+        return chave;
     }
-    return chave; // CPF/CNPJ ou e-mail mantém
   }
 
   function gerarPayloadPix(chave, nome, cidade, valor) {
