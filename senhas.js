@@ -78,12 +78,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const password = passwordResult.textContent;
     if (!password || password === 'Selecione pelo menos um tipo') return;
 
-    copyWithNotification(password, "Senha copiada para a área de transferência!")
+    const IC_COPY  = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+  const IC_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  copyWithNotification(password, "Senha copiada para a área de transferência!")
       .then(success => {
         if (success) {
-          copyPasswordBtn.textContent = '✅ Copiado!';
+          copyPasswordBtn.innerHTML = IC_CHECK + 'Copiado!';
           setTimeout(() => {
-            copyPasswordBtn.textContent = '📋 Copiar Senha';
+            copyPasswordBtn.innerHTML = IC_COPY + 'Copiar Senha';
           }, 2000);
         }
       });

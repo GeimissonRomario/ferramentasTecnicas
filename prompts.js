@@ -187,6 +187,10 @@ Medidas já adotadas: [descreva]`
   }
 ];
 
+// ====== Ícones SVG ======
+const IC_COPY  = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+const IC_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M20 6 9 17l-5-5"/></svg>';
+
 // ====== Elementos DOM ======
 const menuEl       = document.getElementById("menu");
 const outputCard   = document.getElementById("outputCard");
@@ -248,7 +252,7 @@ function mostrar(item) {
   void outputCard.offsetWidth;
   outputCard.classList.add("fade");
 
-  copyBtnCmd.textContent = "📋 Copiar prompt";
+  copyBtnCmd.innerHTML = IC_COPY + "Copiar prompt";
   copyBtnCmd.classList.remove("copied");
 }
 
@@ -282,10 +286,10 @@ function setupCopy() {
     if (!text) return;
     const ok = await copyWithNotification(text, "Prompt copiado! Cole na IA e ajuste os campos entre [colchetes].");
     if (ok) {
-      copyBtnCmd.textContent = "✅ Copiado!";
+      copyBtnCmd.innerHTML = IC_CHECK + "Copiado!";
       copyBtnCmd.classList.add("copied");
       setTimeout(() => {
-        copyBtnCmd.textContent = "📋 Copiar prompt";
+        copyBtnCmd.innerHTML = IC_COPY + "Copiar prompt";
         copyBtnCmd.classList.remove("copied");
       }, 2000);
     }

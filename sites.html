@@ -8,13 +8,14 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script>(function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark-theme');})()</script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <header class="topbar">
     <h1>Sites Úteis</h1>
     <p>Acesso rápido aos sites mais utilizados</p>
-    <a href="index.html" class="back-btn">← Voltar</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Voltar</a>
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
   </header>
 
   <main class="container sites-container">
@@ -39,5 +40,6 @@
   <script src="sites.js"></script>
   <script src="theme.js"></script>
   <script src="notification.js"></script>
+  <script>if(typeof lucide!=="undefined")lucide.createIcons();</script>
 </body>
 </html>

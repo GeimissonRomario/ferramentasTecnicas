@@ -7,6 +7,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>(function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark-theme');})()</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -14,8 +15,8 @@
   <header class="topbar">
     <h1>Gerador de QR Code</h1>
     <p>Crie QR Codes para WiFi, URLs, Texto e PIX (compatível com bancos populares)</p>
-    <a href="index.html" class="back-btn">← Voltar</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Voltar</a>
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
   </header>
 
   <main class="container qrcode-container">
@@ -93,5 +94,6 @@
   <script src="notification.js"></script>
   <script src="qrcode.js"></script>
   <script src="theme.js"></script>
+  <script>if(typeof lucide!=="undefined")lucide.createIcons();</script>
 </body>
 </html>

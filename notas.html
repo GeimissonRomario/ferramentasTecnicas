@@ -8,22 +8,23 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script>(function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark-theme');})()</script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <header class="topbar">
     <h1>Notas Rápidas</h1>
     <p>Anotações salvas automaticamente no navegador</p>
-    <a href="index.html" class="back-btn">← Voltar</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Voltar</a>
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
   </header>
 
   <main class="container notas-container">
     <div class="notas-toolbar">
       <span class="notas-status" id="notasStatus">Nenhuma nota ainda</span>
       <div class="notas-actions">
-        <button class="notas-btn secondary" id="copiarBtn">📋 Copiar tudo</button>
-        <button class="notas-btn secondary" id="exportarBtn">⬇️ Exportar .txt</button>
-        <button class="notas-btn danger" id="limparBtn">🗑️ Limpar</button>
+        <button class="notas-btn secondary" id="copiarBtn"><i data-lucide="copy"></i> Copiar tudo</button>
+        <button class="notas-btn secondary" id="exportarBtn"><i data-lucide="download"></i> Exportar .txt</button>
+        <button class="notas-btn danger" id="limparBtn"><i data-lucide="trash-2"></i> Limpar</button>
       </div>
     </div>
 
@@ -47,5 +48,6 @@ Exemplos de uso:
   <script src="notification.js"></script>
   <script src="notas.js"></script>
   <script src="theme.js"></script>
+  <script>if(typeof lucide!=="undefined")lucide.createIcons();</script>
 </body>
 </html>

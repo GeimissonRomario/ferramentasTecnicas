@@ -8,19 +8,20 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script>(function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark-theme');})()</script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <header class="topbar">
     <h1>Top 10 Prompts de Segurança</h1>
     <p>Prompts prontos para usar com IA em investigações de segurança</p>
-    <a href="index.html" class="back-btn">← Voltar</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Voltar</a>
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
   </header>
 
   <main class="container comandos-main">
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Buscar prompt..." class="search-input">
-      <button id="clearSearch" class="clear-search-btn" title="Limpar busca">✕</button>
+      <button id="clearSearch" class="clear-search-btn" title="Limpar busca"><i data-lucide="x"></i></button>
       <span class="search-counter" id="searchCounter"></span>
     </div>
 
@@ -32,7 +33,7 @@
       <p class="prompt-tip" id="promptTip"></p>
 
       <div class="code-wrap" id="codeWrap" hidden>
-        <button class="copy-btn-cmd" id="copyBtnCmd">📋 Copiar prompt</button>
+        <button class="copy-btn-cmd" id="copyBtnCmd"><i data-lucide="copy"></i> Copiar prompt</button>
         <pre class="code-box"><code id="codeBlock"></code></pre>
       </div>
 
@@ -49,5 +50,6 @@
   <script src="notification.js"></script>
   <script src="prompts.js"></script>
   <script src="theme.js"></script>
+  <script>if(typeof lucide!=="undefined")lucide.createIcons();</script>
 </body>
 </html>

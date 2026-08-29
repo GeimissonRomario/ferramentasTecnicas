@@ -8,60 +8,61 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script>(function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark-theme');})()</script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <header class="topbar">
     <h1>Painel de Suporte Técnico</h1>
     <p>Selecione uma das opções abaixo</p>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
   </header>
 
   <main class="container home">
     <div class="options-grid">
       <a href="comandos.html" class="option-card">
-        <div class="option-icon">💻</div>
+        <div class="option-icon"><i data-lucide="terminal"></i></div>
         <h2>Comandos Windows</h2>
         <p>Lista completa de comandos úteis para suporte técnico</p>
       </a>
 
       <a href="atalhos.html" class="option-card">
-        <div class="option-icon">⌨️</div>
+        <div class="option-icon"><i data-lucide="keyboard"></i></div>
         <h2>Atalhos de Teclado</h2>
         <p>Atalhos úteis para aumentar a produtividade</p>
       </a>
-      
+
       <a href="sites.html" class="option-card">
-        <div class="option-icon">🌐</div>
+        <div class="option-icon"><i data-lucide="globe"></i></div>
         <h2>Sites Úteis</h2>
         <p>Acesso rápido aos sites mais utilizados</p>
       </a>
 
       <a href="senhas.html" class="option-card">
-        <div class="option-icon">🔑</div>
+        <div class="option-icon"><i data-lucide="key-round"></i></div>
         <h2>Gerador de Senhas</h2>
         <p>Crie senhas seguras com customização avançada</p>
       </a>
 
       <a href="subnet.html" class="option-card">
-        <div class="option-icon">📡</div>
+        <div class="option-icon"><i data-lucide="network"></i></div>
         <h2>Calculadora de Sub-Redes</h2>
         <p>Calcule Sub-Redes, máscaras e intervalos de IP</p>
       </a>
 
       <a href="qrcode.html" class="option-card">
-        <div class="option-icon">🔲</div>
+        <div class="option-icon"><i data-lucide="qr-code"></i></div>
         <h2>Gerador de QR Code</h2>
         <p>Crie QR Codes para senhas WiFi e URLs</p>
       </a>
 
       <a href="notas.html" class="option-card">
-        <div class="option-icon">📝</div>
+        <div class="option-icon"><i data-lucide="notebook-pen"></i></div>
         <h2>Notas Rápidas</h2>
         <p>Anotações rápidas salvas automaticamente no navegador</p>
       </a>
 
       <a href="prompts.html" class="option-card">
-        <div class="option-icon">🤖</div>
+        <div class="option-icon"><i data-lucide="bot"></i></div>
         <h2>Top 10 Prompts de Segurança</h2>
         <p>Prompts prontos para usar com IA em investigações de segurança</p>
       </a>
@@ -72,6 +73,7 @@
     <small>Feito por Geimisson Romário — versão web (simulador)</small>
   </footer>
   <script src="theme.js"></script>
-<script src="notification.js"></script>
+  <script src="notification.js"></script>
+  <script>if(typeof lucide!=='undefined')lucide.createIcons();</script>
 </body>
 </html>

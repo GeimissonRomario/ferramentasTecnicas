@@ -195,6 +195,16 @@ footer { margin-top: auto; }
   line-height: 1;
 }
 
+/* ===== LUCIDE ICONS ===== */
+.option-icon svg { width: 44px; height: 44px; stroke: var(--primary); stroke-width: 1.5; }
+.back-btn svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 3px; }
+.theme-toggle svg { width: 20px; height: 20px; }
+.notas-btn svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 5px; }
+.copy-btn-cmd svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 5px; }
+.clear-search-btn svg { width: 14px; height: 14px; vertical-align: middle; }
+.info-btn svg { width: 13px; height: 13px; vertical-align: -1px; }
+.copy-btn svg, .generate-btn svg, .calculate-btn svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; }
+
 .option-card h2 {
   font-size: 16px;
   font-weight: 700;
